@@ -1,0 +1,53 @@
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Build output
+bin/
+obj/
+out/
+dist/
+build/
+
+# Dependencies
+node_modules/
+packages/
+
+# Logs
+*.log
+
+# User-specific configs
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/
+.idea/
+
+# Compiled libraries
+*.dll
+*.exe
+*.so
+*.dylib
+*.a
+
+# Databases
+*.db
+*.db-journal
+
+# ASP.NET temporary files
+*.pdb
+*.cache
+*.config
+*.tmp
+*.bak
+
+# Angular / frontend
+.angular/
+.env
+.env.local
+.env.*.local
+
+# Coverage / test output
+coverage/
+TestResults/
