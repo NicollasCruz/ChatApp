@@ -1,0 +1,111 @@
+<form
+  #userForm="ngForm"
+  (ngSubmit)="register()"
+  class="h-full md:flex justify-center px-20 bg-white gap-10"
+>
+  <div class="h-auto w-3/5" id="bg_image"></div>
+  <div
+    class="bg-white justify-center my-10 rounded w-1/4 flex flex-col gap-3 shadow-sm drop-shadow-md"
+  >
+    <div class="text-center">
+      <div class="flex justify-center">
+        <img
+          [src]="profilePicture"
+          alt="Profile Picture"
+          class="rounded-full object-cover bg-blue-800 h-24 w-24"
+        />
+      </div>
+      <div class="text-2xl my-2 font-medium">Cadastre-se</div>
+    </div>
+    <div class="w-fill px-4">
+      <mat-form-field class="w-full" apperance="fill">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          required
+          name="userName"
+          [(ngModel)]="userName"
+          #userNameModel="ngModel"
+          placeholder="Username"
+        />
+
+        @if(userNameModel.errors?.['required']){
+        <mat-error>O UserName é obrigatório</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-full" apperance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          required
+          name="email"
+          [(ngModel)]="email"
+          #emailModel="ngModel"
+          placeholder="Email"
+        />
+
+        @if(emailModel.errors?.['required']){
+        <mat-error>O email é obrigatório</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-full" apperance="fill">
+        <mat-label>Nome Completo</mat-label>
+        <input
+          matInput
+          required
+          name="fullName"
+          [(ngModel)]="fullName"
+          #fullNameModel="ngModel"
+          placeholder="Nome Completo"
+        />
+
+        @if(fullNameModel.errors?.['required']){
+        <mat-error>O nome completo é obrigatório</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-full" apperance="fill">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          required
+          [type]="hide() ? 'password' : 'text'"
+          name="password"
+          [(ngModel)]="password"
+          #passwordModel="ngModel"
+          placeholder="Senha"
+        />
+        <mat-icon matSuffix (click)="togglePasswordVisibility($event)">
+          {{ hide() ? "visibility_off" : "visibility" }}</mat-icon
+        >
+
+        @if(passwordModel.errors?.['required']){
+        <mat-error>A senha é obrigatória</mat-error>
+        }
+      </mat-form-field>
+
+      <input
+        (change)="onFileSelected($event)"
+        hidden
+        type="file"
+        #pic
+        placeholder="Imagem de Perfil"
+      />
+      <button
+        (click)="pic.click()"
+        type="button"
+        class="w-full flex items-center gap-2 justify-center mb-5 bg-red-900 text-white rounded-full p-2"
+      >
+        <mat-icon>add_a_photo</mat-icon>
+        <span>Carregar Imagem</span>
+      </button>
+
+      <button
+        type="submit"
+        [disabled]="!userForm.valid"
+        class="w-full bg-blue-900 text-white mb-5 rounded-md p-2"
+      >
+        Cadastrar-se
+      </button>
+    </div>
+  </div>
+</form>

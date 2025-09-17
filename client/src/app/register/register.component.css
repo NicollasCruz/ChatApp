@@ -1,0 +1,7 @@
+#bg_image{
+    background-image: url("../../../public/Bg_Image_Register.svg");
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: contain;
+    background-position: bottom;
+}
