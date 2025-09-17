@@ -23,12 +23,12 @@ public static class AccountEndpoint
 
             if (userFromDB != null)
             {
-                return Results.BadRequest(Response<string>.Failure("User already exists"));
+                return Results.BadRequest(Response<string>.Failure("Usuário já existe"));
             }
 
             if (profileImage == null)
             {
-                return Results.BadRequest(Response<string>.Failure("Profile image is required"));
+                return Results.BadRequest(Response<string>.Failure("Imagem de perfil é obrigatória"));
             }
 
             var picture = await FileUpload.Upload(profileImage);
@@ -51,33 +51,33 @@ public static class AccountEndpoint
                 return Results.BadRequest(Response<string>.Failure(errors));
             }
 
-            return Results.Ok(Response<string>.Success("", "User created successfully"));
+            return Results.Ok(Response<string>.Success("", "Usuario cadastrado com sucesso"));
         }).DisableAntiforgery();
         
         group.MapPost("/login", async(UserManager <AppUser> userManager, TokenService tokenService, LoginDTO dto) =>
         {
             if (dto == null)
             {
-                return Results.BadRequest(Response<string>.Failure("Invalid login details"));
+                return Results.BadRequest(Response<string>.Failure("Detalhes de login inválidos"));
             }
 
             var user = await userManager.FindByEmailAsync(dto.Email);
 
             if (user == null)
             {
-                return Results.BadRequest(Response<string>.Failure("User Not found"));
+                return Results.BadRequest(Response<string>.Failure("Usuário não encontrado"));
             }
 
             var isPasswordValid = await userManager.CheckPasswordAsync(user, dto.Password);
 
             if (!isPasswordValid)
             {
-                return Results.BadRequest(Response<string>.Failure("Incorrect password"));
+                return Results.BadRequest(Response<string>.Failure("Senha incorreta"));
             }
 
             var token = tokenService.GenerateToken(user.Id, user.UserName!);
 
-            return Results.Ok(Response<string>.Success(token, "Login successful"));
+            return Results.Ok(Response<string>.Success(token, "Login realizado com sucesso"));
         }).DisableAntiforgery();
 
         group.MapGet("/user", async (HttpContext context, UserManager<AppUser> userManager) =>
@@ -86,7 +86,7 @@ public static class AccountEndpoint
 
             var currentLoggedInUser = await userManager.Users.SingleOrDefaultAsync(x => x.Id == currentLoggedUserId.ToString());
 
-            return Results.Ok(Response<AppUser>.Success(currentLoggedInUser!, "User fetched successfully"));
+            return Results.Ok(Response<AppUser>.Success(currentLoggedInUser!, "Usuário logado"));
         }).RequireAuthorization();
 
         return group;

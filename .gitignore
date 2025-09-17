@@ -51,3 +51,10 @@ packages/
 # Coverage / test output
 coverage/
 TestResults/
+
+#Images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
