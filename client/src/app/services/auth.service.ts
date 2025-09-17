@@ -63,4 +63,9 @@ export class AuthService {
     localStorage.removeItem(this.token);
     localStorage.removeItem("user");
   }
+
+  get currentLoggedUser(): User | null {
+    const user = JSON.parse(localStorage.getItem("user") || 'null');
+    return user;
+  }
 }

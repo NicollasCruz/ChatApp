@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiResponse } from '../Models/api-response';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatIconModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
