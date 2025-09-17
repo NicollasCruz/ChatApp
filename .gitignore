@@ -34,6 +34,11 @@ packages/
 # Databases
 *.db
 *.db-journal
+*.vsidx
+*.v2
+*.bin
+*.db-shm
+*.db-wal
 
 # ASP.NET temporary files
 *.pdb

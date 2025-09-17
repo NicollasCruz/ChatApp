@@ -7,6 +7,7 @@ import {
   HubConnectionState,
   LogLevel,
 } from '@microsoft/signalr';
+import { Message } from '../Models/Message';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,9 @@ export class ChatService {
   onlineUsers = signal<User[]>([]);
 
   currentOppendChat = signal<User | null>(null);
+
+  chatMessages = signal<Message[]>([]);
+  isLoading = signal<boolean>(true);
 
   private hubConnection?: HubConnection;
 
@@ -43,11 +47,42 @@ export class ChatService {
         )
       );
     });
+
+    this.hubConnection!.on("ReceiveMessageList", (message) => {
+      this.chatMessages.update(messages => [...message, messages]);
+      this.isLoading.update(() => false);
+    });
   }
+
+  loadMessages(pageNumber: number){
+    this.hubConnection?.invoke("LoadMessages", this.currentOppendChat()?.id, pageNumber)
+    .then(res => console.log(res))
+    .catch()
+    .finally(() => this.isLoading.update(() => false));
+  }
+
+
 
   disconect() {
     if (this.hubConnection?.state === HubConnectionState.Connected) {
       this.hubConnection.stop().catch((err) => console.log(err));
     }
+  }
+
+  status(userName: string) : string{
+    const currentChatUser = this.currentOppendChat();
+    if(!currentChatUser)
+       return 'offline';
+    
+    const onlineUser = this.onlineUsers().find(u => u.userName === userName);
+
+    return onlineUser?.isTyping ? "Digitando..." : this.isUserOnline();
+  }
+
+  isUserOnline(): string {
+    let onlineUser = this.onlineUsers().find(
+      (u) => u.userName === this.currentOppendChat()?.userName
+    );
+    return onlineUser?.isOnline ? 'online' : 'offline';
   }
 }

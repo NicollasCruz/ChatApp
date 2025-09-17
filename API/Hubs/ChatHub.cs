@@ -28,14 +28,14 @@ public class ChatHub(UserManager<AppUser> userManager, AppDbContext context) : H
         List<MessageResponseDTO> messages = await context.Messages
             .Where(m => (m.SenderId == currentUser.Id && m.ReceiverId == receiverId) ||
                         (m.SenderId == receiverId && m.ReceiverId == currentUser.Id))
-            .OrderByDescending(m => m.CreatedDate)
+            .OrderByDescending(m => m.TimeStamp)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Select(m => new MessageResponseDTO
             {
                 Id = m.Id,
                 Content = m.Content,
-                CreatedDate = m.CreatedDate,
+                CreatedDate = m.TimeStamp,
                 SenderId = m.SenderId,
                 ReceiverId = m.ReceiverId
             })
@@ -53,7 +53,7 @@ public class ChatHub(UserManager<AppUser> userManager, AppDbContext context) : H
             }
         }
 
-        await Clients.User(currentUser.Id).SendAsync("MessagesLoaded", messages);
+        await Clients.Caller.SendAsync("ReceiveMessageList", messages);
     }
     public override async Task OnConnectedAsync()
     {
@@ -102,13 +102,13 @@ public class ChatHub(UserManager<AppUser> userManager, AppDbContext context) : H
             Sender = await userManager.FindByNameAsync(senderId),
             Receiver = await userManager.FindByIdAsync(recipientId),
             IsRead = false,
-            CreatedDate = DateTime.UtcNow
+            TimeStamp = DateTime.UtcNow
         };
 
         context.Messages.Add(newMessage);
         await context.SaveChangesAsync();
 
-        await Clients.User(recipientId).SendAsync("NewMessageReceived", newMessage);
+        await Clients.User(recipientId).SendAsync("ReceiveNewMessage", newMessage);
     }
 
     public async Task NotifyTyping(string receiverId)

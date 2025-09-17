@@ -32,6 +32,7 @@ export class ChatSidebarComponent implements OnInit {
 
   openChatWindow(user: User){
     this.chatService.currentOppendChat.set(user);
+    this.chatService.loadMessages(1)
   }
   
   ngOnInit(): void {

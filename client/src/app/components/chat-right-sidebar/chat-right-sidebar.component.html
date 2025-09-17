@@ -1,8 +1,8 @@
 @if(chatService.currentOppendChat()){
     <div class="p-3">
     <div class="flex flex-col text-center items-center mt-3">
-        <div class="rounded-full w-44 h-44 bg-blue-500">
-            <img [src]="chatService.currentOppendChat()?.profilePicture" alt="Foto de Perfil" class="rounded-full mb-4 w-44 object-cover">
+        <div class="flex items-center rounded-full w-44 h-44 bg-blue-500 mb-4">
+            <img [src]="chatService.currentOppendChat()?.profilePicture" alt="Foto de Perfil" class="rounded-full  w-44 object-cover">
         </div>
 
         <div class="ml-3">
