@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner'
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.css'
 })
-export class ChatBoxComponent {
+export class ChatBoxComponent{
   chatService = inject(ChatService);
   authService = inject(AuthService);
 }

@@ -19,7 +19,8 @@ export class ChatService {
 
   currentOppendChat = signal<User | null>(null);
 
-  chatMessages = signal<Message[]>([]);
+  chatMessages = signal<Message[] | null>(null);
+
   isLoading = signal<boolean>(true);
 
   private hubConnection?: HubConnection;
